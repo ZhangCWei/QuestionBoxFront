@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--    solid : 背景填充-->
+    <solid
+        android:color="@color/white"/>
+
+    <!-- 使用corners设置边框圆角；这里是设置为四周 也可以单独设置某个位置为圆角-->
+    <corners android:radius="20dp"/>
+
+
+
+    <!--        android:dashGap="5dp"-->
+    <!--        android:dashWidth="3dp"-->
+
+    <!--    使用padding设置边框与内容之间的距离；-->
+    <stroke
+        android:width="10dp"
+        android:color="#f5f5f5" />
+    <padding
+        android:bottom="20dp"
+        android:left="50dp"
+        android:right="50dp"
+        android:top="20dp" />
+
+
+
+
+</shape>

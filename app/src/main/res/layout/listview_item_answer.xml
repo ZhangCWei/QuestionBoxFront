@@ -1,0 +1,33 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/ll_question"
+        android:layout_width="330dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:background="@drawable/textview_answer_radioboder"
+        android:gravity="center_vertical"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="20dp"
+        android:translationZ="5dp"
+        android:elevation="3dp">
+        <TextView
+            android:id="@+id/question"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="18dp"
+            android:text="这是一个回答这是一个回答这是一个回答这是一个回答这是一个回答这是一个回答这是一个回答这是一个回答这是一个回答这是一个回答这是一个回答这是一个回答这是一个回答这是一个回答这是一个回答这是一个回答"
+            android:lines="3"
+            android:ellipsize="end"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+</LinearLayout>
