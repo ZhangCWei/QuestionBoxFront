@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
@@ -44,6 +47,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void init() {
         // 设置背景图片
         getWindow().setBackgroundDrawableResource(R.drawable.loginbg);
+
+        // 获取屏幕高度
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int screenHeight = displayMetrics.heightPixels;
+
+        // 设置 TextView 的高度
+        int marginTop = 3 * screenHeight / 8;
+        TextView textView = findViewById(R.id.tv_1);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) textView.getLayoutParams();
+        params.topMargin = marginTop;
+        textView.setLayoutParams(params);
+
         //登录按钮
         Button btnLogin = findViewById(R.id.bt_login);
         //注册按钮

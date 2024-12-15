@@ -12,8 +12,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
+import android.util.DisplayMetrics;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -58,14 +61,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // 确保 Activity 的正常初始化
         super.onCreate(savedInstanceState);
-
-        // 设置当前 Activity 的布局文件
         setContentView(R.layout.activity_register);
-
-        // 设置背景图像资源
-        getWindow().setBackgroundDrawableResource(R.drawable.registerbg);
 
         // 初始化 Mob API
         MobSDK.init(this, "3805a30a09595", "4126fd577130e07a64873af014315bed");
@@ -145,6 +142,14 @@ public class RegisterActivity extends AppCompatActivity {
     };
 
     private void initView() {
+        // 设置背景图像资源
+        getWindow().setBackgroundDrawableResource(R.drawable.registerbg);
+
+        // 获取屏幕高度
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int screenHeight = displayMetrics.heightPixels;
+
         // 获取 View
         inputName = findViewById(R.id.name);
         inputCode = findViewById(R.id.code);
@@ -152,6 +157,12 @@ public class RegisterActivity extends AppCompatActivity {
         inputPassword = findViewById(R.id.password);
         get_code = findViewById(R.id.get_code);
         commit = findViewById(R.id.commit);
+
+        // 设置 EditText 的 layout_marginTop 属性
+        int marginTop = 3 * screenHeight / 8;
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) inputName.getLayoutParams();
+        params.topMargin = marginTop;
+        inputName.setLayoutParams(params);
 
         // 为 get_code 按钮设置事件监听器, 当用户点击按钮时, 执行代码
         get_code.setOnClickListener(view -> {
