@@ -49,8 +49,8 @@ public class mListAdapter extends ArrayAdapter<listviewItem> {
             public void onClick(View view) {
                 // Toast.makeText(getContext(),"你点击了第"+position+"项",Toast.LENGTH_SHORT).show();
                 // TextView qtext = ll_question.findViewById(R.id.question);
-                TextView qtext = view.findViewById(R.id.question);
-                String question = qtext.getText().toString();
+                TextView qText = view.findViewById(R.id.question);
+                String question = qText.getText().toString();
                 Common.nowpos = Common.questionList.indexOf(question);
                 System.out.println(question);
                 Common.nowpos = Common.questionList.indexOf(question);
