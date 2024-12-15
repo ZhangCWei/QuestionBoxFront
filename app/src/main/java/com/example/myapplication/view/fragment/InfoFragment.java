@@ -85,7 +85,7 @@ public class InfoFragment extends Fragment {
             GetHeader();
         } else {
             // 设置默认头像
-            Bitmap icon = BitmapFactory.decodeResource(requireContext().getResources(), R.drawable.img_1);
+            Bitmap icon = BitmapFactory.decodeResource(requireContext().getResources(), R.drawable.defaultheader);
             Bitmap circleBitmap = Common.getLargestCircleBitmap(icon);
             headImg.setImageBitmap(circleBitmap);
         }

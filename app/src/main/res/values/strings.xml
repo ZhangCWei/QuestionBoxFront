@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">"匿问"</string>
+    <string name="app_name">"畅问"</string>
     <string name="submitText">提 交</string>
     <string name="QuestionToMe">向 我 提 问</string>
     <string name="welcome">Welcome!</string>
