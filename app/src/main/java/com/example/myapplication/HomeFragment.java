@@ -91,10 +91,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         Common.idList.clear();
                         Common.questionList.clear();
                         Common.answerList.clear();
-                        Common.sourcephoneList.clear();
-                        Common.targetphoneList.clear();
-                        Common.questiontimeList.clear();
-                        Common.answertimeList.clear();
+                        Common.sourcePhoneList.clear();
+                        Common.targetPhoneList.clear();
+                        Common.questionTimeList.clear();
+                        Common.answerTimeList.clear();
                         Common.stateList.clear();
                         for(Questionbox qb : QBox){
                             Common.idList.add(qb.getId());
@@ -106,16 +106,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                             Common.answerList.add(qb.getAnswer());
                         }
                         for(Questionbox qb : QBox){
-                            Common.sourcephoneList.add(qb.getSourcePhone());
+                            Common.sourcePhoneList.add(qb.getSourcePhone());
                         }
                         for(Questionbox qb : QBox){
-                            Common.targetphoneList.add(qb.getTargetPhone());
+                            Common.targetPhoneList.add(qb.getTargetPhone());
                         }
                         for(Questionbox qb : QBox){
-                            Common.questiontimeList.add(qb.getQuestionTime());
+                            Common.questionTimeList.add(qb.getQuestionTime());
                         }
                         for(Questionbox qb : QBox){
-                            Common.answertimeList.add(qb.getAnswerTime());
+                            Common.answerTimeList.add(qb.getAnswerTime());
                         }
                         for(Questionbox qb : QBox){
                             Common.stateList.add(qb.getState());
@@ -209,7 +209,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 //        System.out.println("qlsize="+length);
         int i = 0;
         while(i < length){
-            listviewItem lvitem = new listviewItem(Common.questionList.get(i), Common.questiontimeList.get(i));
+            listviewItem lvitem = new listviewItem(Common.questionList.get(i), Common.questionTimeList.get(i));
             Common.lvItemList.add(lvitem);
             i++;
         }

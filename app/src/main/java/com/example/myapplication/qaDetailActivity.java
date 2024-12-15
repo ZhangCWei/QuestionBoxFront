@@ -81,7 +81,7 @@ public class qaDetailActivity extends AppCompatActivity {
                                 // 在这里执行需要在主线程中更新的UI操作
                                 Common.answerList.set(Common.nowpos, answer);
                                 Common.stateList.set(Common.nowpos, "1");
-                                Common.answertimeList.set(Common.nowpos, answertime);
+                                Common.answerTimeList.set(Common.nowpos, answertime);
                                 String atimestr = "回答于 "+answertime;
                                 TextView atime = (TextView)findViewById(R.id.atime);
                                 atime.setText(atimestr);
@@ -123,7 +123,7 @@ public class qaDetailActivity extends AppCompatActivity {
         TextView qtext = (TextView)findViewById(R.id.question);
         qtext.setText(Common.questionList.get(Common.nowpos));
         TextView qtime = (TextView)findViewById(R.id.qtime);
-        String qtimestr = "提问于 "+Common.questiontimeList.get(Common.nowpos);
+        String qtimestr = "提问于 "+Common.questionTimeList.get(Common.nowpos);
         qtime.setText(qtimestr);
         TextView atime = (TextView)findViewById(R.id.atime);
 
@@ -173,7 +173,7 @@ public class qaDetailActivity extends AppCompatActivity {
         if(Common.hometabNum == 1 && state.equals("1")){
             editText.setText(Common.answerList.get(Common.nowpos));     // 提问我但我并且我已经回答的（可编辑回答）
             editText.setEnabled(false);
-            String atimestr = "回答于 "+Common.answertimeList.get(Common.nowpos);
+            String atimestr = "回答于 "+Common.answerTimeList.get(Common.nowpos);
             atime.setText(atimestr);
 
             editbtn.setBackgroundResource(R.drawable.answerbtn);
@@ -228,7 +228,7 @@ public class qaDetailActivity extends AppCompatActivity {
         if(Common.hometabNum == 3 && state.equals("1")){
             editText.setText(Common.answerList.get(Common.nowpos));     // 我提问且已经回答的（只读）
             editText.setEnabled(false);
-            String atimestr = "回答于 "+Common.answertimeList.get(Common.nowpos);
+            String atimestr = "回答于 "+Common.answerTimeList.get(Common.nowpos);
             atime.setText(atimestr);
         }
     }

@@ -68,11 +68,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             OkHttpClient client = new OkHttpClient();
 
             // 创建请求体
-            RequestBody body = new FormBody.Builder().add("phone",username).build();
+            RequestBody body = new FormBody.Builder().add("phone", username).build();
 
             // 创建请求
             Request request = new Request.Builder()
-                    .url(Common.URL+"/login")
+                    .url(Common.URL + "/login")
                     .post(body)
                     .cacheControl(CacheControl.FORCE_NETWORK)
                     .build();
@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         String userJson= response.body().string();
                         // 反序列化用户信息
                         Common.user = gson.fromJson(userJson, User.class);
+                        System.out.println(Common.user);
                         Intent intent;
                         if(Common.user == null){
                             // 用户不存在
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             return;
                         }
                         // 验证密码
-                        if (password.equals(Common.user.getRealpassword())) {
+                        if (password.equals(Common.user.getRealPassword())) {
                             // 密码正确
                             Looper.prepare();
                             Toast.makeText(MainActivity.this,"登录成功！",Toast.LENGTH_SHORT).show();

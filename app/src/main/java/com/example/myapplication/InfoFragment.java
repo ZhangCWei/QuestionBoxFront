@@ -83,17 +83,15 @@ public class InfoFragment extends Fragment {
                 EditText Password = tabView.findViewById(R.id.showpassword);
                 EditText Phone = tabView.findViewById(R.id.showphone);
                 Name.setText(host.getName());
-                Password.setText(host.getRealpassword());
+                Password.setText(host.getRealPassword());
                 Phone.setText(host.getPhone());
                 Name.setEnabled(false);
                 Password.setEnabled(false);
                 Phone.setEnabled(false);
                 headimg = tabView.findViewById(R.id.header);
-                if(host.getIschanged()==1) {
+                if(host.getIsChanged()==1) {
                         Getheader();
-                }
-                else
-                {
+                } else {
                         Bitmap icon = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.img_1);
                         Bitmap circleBitmap = Common.getLargestCircleBitmap(icon);
                         headimg.setImageBitmap(circleBitmap);
@@ -109,8 +107,8 @@ public class InfoFragment extends Fragment {
         }
 
         public void onClickUpload(View v) {
-                host.setIschanged(1);
-                Common.user.setIschanged(1);
+                host.setIsChanged(1);
+                Common.user.setIsChanged(1);
                 Listener.photo();
 
         }

@@ -143,15 +143,15 @@ public class AskActivity extends AppCompatActivity {
                         AskActivity.this.runOnUiThread(new Runnable() {
                             public void run() {
                                 answerList = gson.fromJson(AnswerJson, new TypeToken<ArrayList<Questionbox>>() {}.getType());
-                                Common.AskanswerList.clear();
+                                Common.askAnswerList.clear();
                                 answerIdList.clear();
                                 if (adapter != null) adapter.clear();
                                 for (Questionbox qb : answerList) {
-                                    Common.AskanswerList.add(qb.getQuestion());
+                                    Common.askAnswerList.add(qb.getQuestion());
                                     answerIdList.add(qb.getId());
                                 }
-                                if (!Common.AskanswerList.isEmpty()) {
-                                    adapter = new AskListAdapter(AskActivity.this, R.layout.listview_item_answer, Common.AskanswerList,null);
+                                if (!Common.askAnswerList.isEmpty()) {
+                                    adapter = new AskListAdapter(AskActivity.this, R.layout.listview_item_answer, Common.askAnswerList,null);
                                     answeredList.setAdapter(adapter);
                                     calculateHeight();
                                 }
