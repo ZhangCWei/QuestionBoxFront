@@ -38,4 +38,5 @@
     <string name="MyPassword">我的密码</string>
     <string name="MyPhone">我绑定的手机号</string>
     <string name="Exit">退出登录</string>
+    <string name="AddFriend">添加新好友</string>
 </resources>

@@ -118,18 +118,17 @@ public class InfoFragment extends Fragment {
         Listener.exit();
     }
 
-    private void showAlertDialog(EditText editText, int option) {
+    private void showAlertDialog(String text, int option) {
         // 创建确认修改的对话框
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setTitle("提示");
         alertDialogBuilder.setMessage("是否确认修改？");
         alertDialogBuilder.setPositiveButton("确定", (dialog, which) -> {
-            Save(editText.getText().toString(), option);
+            Save(text, option);
             dialog.cancel();
         });
         alertDialogBuilder.setNegativeButton("取消", (dialog, id) -> dialog.cancel());
         alertDialogBuilder.show();
-        editText.setEnabled(false);
     }
 
     public void onEdit(View v){
@@ -142,8 +141,16 @@ public class InfoFragment extends Fragment {
             else if (v.getId() == R.id.edit2) Password.setEnabled(true);
         } else {
             Edit.setText("编辑");
-            if (v.getId() == R.id.edit1) showAlertDialog(Name, 0);
-            else if (v.getId() == R.id.edit2) showAlertDialog(Password, 1);
+            if (v.getId() == R.id.edit1) {
+                String name = Name.getText().toString();
+                showAlertDialog(name, 0);
+                Name.setEnabled(false);
+            }
+            else if (v.getId() == R.id.edit2) {
+                String password = Common.MD5(Password.getText().toString());
+                showAlertDialog(password, 1);
+                Password.setEnabled(false);
+            }
         }
     }
 

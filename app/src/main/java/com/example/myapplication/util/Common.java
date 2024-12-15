@@ -13,6 +13,8 @@ import com.example.myapplication.listviewItem;
 import com.example.myapplication.view.fragment.mBottomSheetDialogFragment;
 import com.example.myapplication.view.adapter.mListAdapter;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,6 +58,21 @@ public class Common {
         canvas.drawCircle(radius, radius, radius, paint);
 
         return circleBitmap;
+    }
+
+    // MD5 加密
+    public static String MD5(String data) {
+        StringBuilder sb = new StringBuilder();
+        try {
+            MessageDigest md = MessageDigest.getInstance("md5");
+            byte[] md5 = md.digest(data.getBytes(StandardCharsets.UTF_8));
+            for (byte b : md5) {
+                sb.append(Integer.toHexString(b & 0xff));
+            }
+        }catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return sb.toString();
     }
 
 }

@@ -16,7 +16,6 @@ import android.util.DisplayMetrics;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -240,6 +239,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
             // 进行验证
             System.out.println(3);
+            password = Common.MD5(password);
             SMSSDK.submitVerificationCode(country, phone, code);
         });
     }
@@ -308,6 +308,7 @@ public class RegisterActivity extends AppCompatActivity {
             SMSSDK.unregisterEventHandler(eventHandle);
         }
     }
+
     private void saveAccount(){
         OkHttpClient client = new OkHttpClient();
         RequestBody body = new FormBody.Builder()

@@ -79,11 +79,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public void run() {
             // 获取用户名和密码
             String username = Username.getText().toString();
-            String password = PassWord.getText().toString();
-
-            OkHttpClient client = new OkHttpClient();
+            String password = Common.MD5(PassWord.getText().toString());
 
             // 创建请求体
+            OkHttpClient client = new OkHttpClient();
             RequestBody body = new FormBody.Builder().add("phone", username).build();
 
             // 创建请求

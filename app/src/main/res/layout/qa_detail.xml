@@ -91,16 +91,17 @@
             android:text="@string/TimeExample2"/>
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp" >
+        android:layout_height="70dp">
         <TextView
             android:id="@+id/answerbtn"
             android:background="#ffffff"
             android:textColor="@color/black"
             android:gravity="center"
             android:layout_marginTop="10dp"
-            android:layout_marginStart="280dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="15dp"
             android:layout_width="100dp"
             android:layout_height="45dp" />
         <TextView
@@ -109,8 +110,9 @@
             android:textColor="@color/black"
             android:gravity="center"
             android:layout_marginTop="10dp"
-            android:layout_marginStart="-100dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="15dp"
             android:layout_width="100dp"
             android:layout_height="45dp" />
-    </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>
