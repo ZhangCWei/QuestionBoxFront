@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.view;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myapplication.R;
 import com.example.myapplication.entity.Questionbox;
 import com.example.myapplication.util.Common;
 import com.google.gson.Gson;
@@ -26,7 +27,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class AnswerDetail extends AppCompatActivity {
+public class AnsDetailActivity extends AppCompatActivity {
     private String id;
     private TextView qText;
     private EditText aText;

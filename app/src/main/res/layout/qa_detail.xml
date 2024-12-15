@@ -1,8 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
     android:orientation="vertical" >
+
     <LinearLayout
         android:id="@+id/ll_title"
         android:layout_width="match_parent"
@@ -10,20 +12,22 @@
         android:orientation="horizontal">
         <include layout="@layout/component_topbar"/>
     </LinearLayout>
-    <LinearLayout
+
+    <RelativeLayout
         android:id="@+id/ll_time"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
         <TextView
             android:id="@+id/qtime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="5dp"
-            android:layout_marginLeft="190dp"
-            android:text="提问于 2023-06-14 16:17"/>
-    </LinearLayout>
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="15dp"
+            android:text="@string/TimeExample2"/>
+    </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/ll_question"
         android:background="@drawable/textview_question_radioboder"
@@ -42,10 +46,11 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="18dp"
+            android:textSize="18sp"
             android:textColor="@color/black"
-            android:text="这是一个问题"/>
+            android:text="@string/QuestionExample"/>
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/ll_answer"
         android:background="@drawable/textview_answer_radioboder"
@@ -64,21 +69,28 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="18dp"
-            android:textColor="@color/black" />
+            android:textSize="18sp"
+            android:autofillHints="autofillHintText"
+            android:inputType="text"
+            android:textColor="@color/black"
+            tools:ignore="LabelFor" />
     </LinearLayout>
-    <LinearLayout
+
+    <RelativeLayout
         android:id="@+id/ll_atime"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
         <TextView
             android:id="@+id/atime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:layout_marginLeft="190dp" />
-    </LinearLayout>
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="15dp"
+            android:text="@string/TimeExample2"/>
+    </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="70dp" >
@@ -88,7 +100,7 @@
             android:textColor="@color/black"
             android:gravity="center"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="280dp"
+            android:layout_marginStart="280dp"
             android:layout_width="100dp"
             android:layout_height="45dp" />
         <TextView
@@ -97,10 +109,8 @@
             android:textColor="@color/black"
             android:gravity="center"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="-100dp"
+            android:layout_marginStart="-100dp"
             android:layout_width="100dp"
             android:layout_height="45dp" />
-
     </LinearLayout>
-
 </LinearLayout>

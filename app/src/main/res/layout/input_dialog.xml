@@ -11,6 +11,8 @@
         android:layout_height="70dp"
         android:gravity="center"
         android:layout_gravity="center"
-        android:hint="请输入好友ID"
+        android:hint="@string/inputID"
+        android:autofillHints="autofillHintText"
+        android:inputType="text"
         android:textSize="15sp" />
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.view;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myapplication.R;
 import com.example.myapplication.util.Common;
 
 import java.io.IOException;
@@ -27,7 +28,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 
-public class qaDetailActivity extends AppCompatActivity {
+public class QaDetailActivity extends AppCompatActivity {
     // 不能在这里就写这句, 否则会闪退
     // TextView TopBarTitle = (TextView)findViewById(R.id.topbar_title);
 

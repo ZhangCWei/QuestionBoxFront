@@ -28,9 +28,9 @@ import android.widget.Toast;
 import com.example.myapplication.R;
 import com.example.myapplication.entity.User;
 import com.example.myapplication.util.Common;
-import com.example.myapplication.HomeFragment;
-import com.example.myapplication.InfoFragment;
-import com.example.myapplication.FriendFragment;
+import com.example.myapplication.view.fragment.HomeFragment;
+import com.example.myapplication.view.fragment.InfoFragment;
+import com.example.myapplication.view.fragment.FriendFragment;
 import com.example.myapplication.Interface.FragmentInterface;
 
 import java.io.File;

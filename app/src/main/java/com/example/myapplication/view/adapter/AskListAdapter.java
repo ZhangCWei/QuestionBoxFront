@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.view.adapter;
 
 
 import android.content.Context;
@@ -17,11 +17,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.example.myapplication.R;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-class AskListAdapter extends ArrayAdapter<String> {
+public class AskListAdapter extends ArrayAdapter<String> {
     private final Context context;
     private final int resource;
     private final List<String> items;

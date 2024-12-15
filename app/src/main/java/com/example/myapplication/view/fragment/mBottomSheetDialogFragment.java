@@ -1,9 +1,9 @@
-package com.example.myapplication;
+package com.example.myapplication.view.fragment;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
+import com.example.myapplication.R;
 import com.example.myapplication.util.Common;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 

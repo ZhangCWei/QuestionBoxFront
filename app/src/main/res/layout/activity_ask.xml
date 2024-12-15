@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
@@ -19,7 +20,7 @@
 
             <EditText
                 android:id="@+id/askPlace"
-                android:hint="向 我 提 问"
+                android:hint="@string/QuestionToMe"
                 android:gravity="center"
                 android:background="@drawable/textview_question_radioboder"
                 android:layout_width="match_parent"
@@ -29,7 +30,9 @@
                 android:layout_marginRight="15dp"
                 android:translationZ="5dp"
                 android:elevation="5dp"
-                android:minHeight="200dp"/>
+                android:minHeight="200dp"
+                android:autofillHints="autofillHintText"
+                android:inputType="text"/>
 
             <Button
                 android:id="@+id/commit"
@@ -37,7 +40,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/addbutton_bg"
-                android:text="提  交"
+                android:text="@string/submitText"
                 android:layout_width="120dp"
                 android:layout_height="50dp"/>
 
@@ -47,7 +50,8 @@
                 android:divider="#ffffff"
                 android:layout_marginTop="35dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                tools:ignore="NestedScrolling" />
         </LinearLayout>
     </ScrollView>
 

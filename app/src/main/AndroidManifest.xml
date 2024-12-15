@@ -47,13 +47,13 @@
 <!--            android:name=".qaDetailActivity"-->
 <!--            android:exported="true" />-->
         <activity
-            android:name=".AskActivity"
+            android:name=".view.AskActivity"
             android:exported="false">
         </activity>
 
         <activity
 
-            android:name=".qaDetailActivity"
+            android:name=".view.QaDetailActivity"
             android:exported="true">
 
         </activity>
@@ -81,7 +81,7 @@
         </activity>
 
         <activity
-            android:name=".AnswerDetail"
+            android:name=".view.AnsDetailActivity"
             android:exported="false">
         </activity>
 

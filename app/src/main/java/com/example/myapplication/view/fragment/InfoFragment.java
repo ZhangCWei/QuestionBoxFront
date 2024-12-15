@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.view.fragment;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.myapplication.Interface.FragmentInterface;
+import com.example.myapplication.R;
 import com.example.myapplication.entity.User;
 import com.example.myapplication.util.Common;
 

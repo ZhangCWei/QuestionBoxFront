@@ -1,9 +1,8 @@
-package com.example.myapplication;
+package com.example.myapplication.view;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Looper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -16,6 +15,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myapplication.view.adapter.AskListAdapter;
+import com.example.myapplication.R;
 import com.example.myapplication.entity.Questionbox;
 import com.example.myapplication.util.Common;
 import com.google.gson.Gson;
@@ -104,10 +105,10 @@ public class AskActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                     if(response.isSuccessful()){
-                        Looper.prepare();
-                        Toast.makeText(AskActivity.this, "问题提交成功！", Toast.LENGTH_SHORT).show();
-                        askText.setText("");
-                        Looper.loop();
+                        runOnUiThread(() -> {
+                            Toast.makeText(AskActivity.this, "问题提交成功！", Toast.LENGTH_SHORT).show();
+                            askText.setText("");
+                        });
                     } else {
                         System.out.println("wrong");
                     }
@@ -214,7 +215,7 @@ public class AskActivity extends AppCompatActivity {
             int selectedId = answerIdList.get(i);
             String idStr = String.valueOf(selectedId);
             // 创建跳转到回答详情的 Intent
-            Intent intent = new Intent(AskActivity.this, AnswerDetail.class);
+            Intent intent = new Intent(AskActivity.this, AnsDetailActivity.class);
             adapter.notifyDataSetChanged();
             // 传递选中问题的 ID
             intent.putExtra("id", idStr);

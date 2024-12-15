@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.view.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -6,22 +6,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.myapplication.R;
 import com.example.myapplication.entity.Questionbox;
+import com.example.myapplication.listviewItem;
 import com.example.myapplication.util.Common;
+import com.example.myapplication.view.adapter.mListAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import okhttp3.CacheControl;
 import okhttp3.Call;

@@ -1,5 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:translationZ="5dp"
     android:elevation="5dp"
@@ -13,20 +14,21 @@
         android:layout_width="60dp"
         android:layout_height="30dp"
         android:background="@android:color/transparent"
-        android:contentDescription="Back Button"
+        android:contentDescription="@string/BackButton"
         android:scaleType="fitCenter"
         android:src="@drawable/backarrow" />
 
     <TextView
         android:id="@+id/topbar_title"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:paddingRight="60dp"
-        android:text="首 页"
+        android:paddingEnd="60dp"
+        android:text="@string/HomePage"
         android:textColor="@color/black"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        tools:ignore="RtlSymmetry" />
 
 
 </LinearLayout>

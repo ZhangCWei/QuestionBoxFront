@@ -10,8 +10,8 @@ import android.widget.ListView;
 
 import com.example.myapplication.entity.User;
 import com.example.myapplication.listviewItem;
-import com.example.myapplication.mBottomSheetDialogFragment;
-import com.example.myapplication.mListAdapter;
+import com.example.myapplication.view.fragment.mBottomSheetDialogFragment;
+import com.example.myapplication.view.adapter.mListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

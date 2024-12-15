@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.view.fragment;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -22,7 +22,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.myapplication.R;
 import com.example.myapplication.util.Common;
+import com.example.myapplication.view.AskActivity;
+import com.example.myapplication.view.adapter.AskListAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

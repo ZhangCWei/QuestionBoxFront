@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.view.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -12,7 +12,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
+import com.example.myapplication.R;
+import com.example.myapplication.listviewItem;
 import com.example.myapplication.util.Common;
+import com.example.myapplication.view.QaDetailActivity;
 
 import java.util.List;
 
@@ -51,7 +54,7 @@ public class mListAdapter extends ArrayAdapter<listviewItem> {
                 Common.nowpos = Common.questionList.indexOf(question);
                 System.out.println(question);
                 Common.nowpos = Common.questionList.indexOf(question);
-                intent = new Intent(mContext, qaDetailActivity.class);
+                intent = new Intent(mContext, QaDetailActivity.class);
                 mContext.startActivity(intent);
             }
         });

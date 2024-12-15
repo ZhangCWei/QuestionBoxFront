@@ -6,7 +6,8 @@
     android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:baselineAligned="false">
         <LinearLayout
             android:id="@+id/id_QmeUnanswered"
             android:layout_width="0dp"
@@ -22,7 +23,7 @@
                 android:textColor="@color/black"
                 android:textSize="18sp"
 
-                android:text="未答"/>
+                android:text="@string/NoAnswer"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/id_QmeAnswered"
@@ -38,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:text="已答"/>
+                android:text="@string/haveAnswer"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/id_meQUnanswered"
@@ -54,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:text="未回答"/>
+                android:text="@string/NoAnswer2"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/id_meQAnswered"
@@ -70,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:text="有回答"/>
+                android:text="@string/haveAnswer2"/>
         </LinearLayout>
     </LinearLayout>
 
