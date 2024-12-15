@@ -22,12 +22,13 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 class AskListAdapter extends ArrayAdapter<String> {
-    private Context context;
-    private int resource;
-    private List<String> items;
+    private final Context context;
+    private final int resource;
+    private final List<String> items;
     List<byte[]> itemsImage;
 
     public AskListAdapter(Context context, int resource, List<String> items,List<byte[]> itemsImage) {
+        // 声明上下文, 资源ID和条目列表
         super(context, resource, items);
         this.context = context;
         this.resource = resource;
@@ -36,14 +37,16 @@ class AskListAdapter extends ArrayAdapter<String> {
     }
 
     private Bitmap getLargestCircleBitmap(Context context, Bitmap bitmap) {
+        // 获取最大圆形 Bitmap
         int diameter = Math.min(bitmap.getWidth(), bitmap.getHeight());
         Bitmap circleBitmap = Bitmap.createBitmap(diameter, diameter, Bitmap.Config.ARGB_8888);
         BitmapShader shader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+
         Paint paint = new Paint();
         paint.setShader(shader);
 
-        Canvas canvas = new Canvas(circleBitmap);
         float radius = diameter / 2f;
+        Canvas canvas = new Canvas(circleBitmap);
         canvas.drawCircle(radius, radius, radius, paint);
 
         return circleBitmap;
@@ -52,20 +55,19 @@ class AskListAdapter extends ArrayAdapter<String> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        // 若为空, 使用布局填充器加载布局
         View view = convertView;
         if (view == null) {
             LayoutInflater inflater = LayoutInflater.from(context);
             view = inflater.inflate(resource, null);
         }
 
-        // Find the TextView in your listview_item_ask.xml
+        // 在布局中找到 TextView, 设置文本内容
         TextView textViewQuestion = view.findViewById(R.id.question);
-
-        // Set the text for the TextView
         textViewQuestion.setText(items.get(position));
 
+        // 在布局中找到 ImageView, 设置其图像
         ImageView image = view.findViewById(R.id.avator);
-
         if(itemsImage != null && itemsImage.size() > position){
             byte[] imageBytes = itemsImage.get(position);
             if (imageBytes != null) {

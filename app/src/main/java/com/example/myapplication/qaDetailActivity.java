@@ -1,18 +1,16 @@
 package com.example.myapplication;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.myapplication.entity.Questionbox;
 import com.example.myapplication.util.Common;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -30,28 +28,23 @@ import okhttp3.Response;
 
 
 public class qaDetailActivity extends AppCompatActivity {
-//    不能在这里就写这句，否则会闪退！！！！！！
-//    TextView TopBarTitle = (TextView)findViewById(R.id.topbar_title);
-
-    public static int btnFlag = 0;
-    private ImageButton backBtn;
+    // 不能在这里就写这句, 否则会闪退
+    // TextView TopBarTitle = (TextView)findViewById(R.id.topbar_title);
 
     class Threads_Answer extends Thread {
-        // 写回答/编辑回答
-        private OkHttpClient client = null;
         String id = null;
         String server = null;
         String answer = null;
-        String answertime = null;
-
+        String answerTime = null;
 
         @Override
         public void run() {
-            client = new OkHttpClient();
+            // 写回答/编辑回答
+            OkHttpClient client = new OkHttpClient();
             RequestBody body = new FormBody.Builder()
                     .add("id", id)
                     .add("answer", answer)
-                    .add("answertime", answertime)
+                    .add("answertime", answerTime)
                     .build();
             Request request = new Request.Builder()
                     .url(Common.URL + server)
@@ -62,53 +55,44 @@ public class qaDetailActivity extends AppCompatActivity {
             Call call = client.newCall(request);
             call.enqueue(new Callback() {
                 @Override
-                public void onFailure(Call call, IOException e) {
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
                     System.out.println("fail to save answer!");
                 }
 
                 @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    if(response.isSuccessful()){    // 回调的方法执行在子线程。
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    if(response.isSuccessful()){
                         System.out.println("save answer!");
-                        Gson gson = new Gson();
-                        String qboxitemJson = response.body().string();
-                        Questionbox qboxitem = gson.fromJson(qboxitemJson, new TypeToken<Questionbox>(){}.getType());
-
+                        assert response.body() != null;
                         // 切换到主线程来操作UI视图
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                // 在这里执行需要在主线程中更新的UI操作
-                                Common.answerList.set(Common.nowpos, answer);
-                                Common.stateList.set(Common.nowpos, "1");
-                                Common.answerTimeList.set(Common.nowpos, answertime);
-                                String atimestr = "回答于 "+answertime;
-                                TextView atime = (TextView)findViewById(R.id.atime);
-                                atime.setText(atimestr);
-                                TextView answerbtn = (TextView) findViewById(R.id.answerbtn);
-                                TextView editbtn = (TextView) findViewById(R.id.editbtn);
-                                // 保存回答的按钮隐藏
-                                answerbtn.setBackgroundColor(Color.parseColor("#ffffff"));
-                                answerbtn.setText("");
-                                answerbtn.setTranslationZ(0);
-                                answerbtn.setElevation(0);
-                                answerbtn.setEnabled(false);
-                                if(Common.hometabNum == 1){
-                                    // 编辑回答的按钮显示
-                                    editbtn.setBackgroundResource(R.drawable.answerbtn);
-                                    editbtn.setText("编辑回答");
-                                    editbtn.setTranslationZ(5);
-                                    editbtn.setElevation(5);
-                                    editbtn.setEnabled(true);
-                                    answerbtn.setEnabled(false);
-                                }
-
-                                Common.adapter.notifyDataSetChanged();
+                        runOnUiThread(() -> {
+                            // 在这里执行需要在主线程中更新的UI操作
+                            Common.answerList.set(Common.nowpos, answer);
+                            Common.stateList.set(Common.nowpos, "1");
+                            Common.answerTimeList.set(Common.nowpos, answerTime);
+                            String ansTimeStr = "回答于 "+ answerTime;
+                            TextView ansTime = findViewById(R.id.atime);
+                            ansTime.setText(ansTimeStr);
+                            TextView answerBtn = findViewById(R.id.answerbtn);
+                            TextView editBtn = findViewById(R.id.editbtn);
+                            // 保存回答的按钮隐藏
+                            answerBtn.setBackgroundColor(Color.parseColor("#ffffff"));
+                            answerBtn.setText("");
+                            answerBtn.setTranslationZ(0);
+                            answerBtn.setElevation(0);
+                            answerBtn.setEnabled(false);
+                            if(Common.hometabNum == 1){
+                                // 编辑回答的按钮显示
+                                editBtn.setBackgroundResource(R.drawable.answerbtn);
+                                editBtn.setText("编辑回答");
+                                editBtn.setTranslationZ(5);
+                                editBtn.setElevation(5);
+                                editBtn.setEnabled(true);
+                                answerBtn.setEnabled(false);
                             }
+                            Common.adapter.notifyDataSetChanged();
                         });
-
-                    }
-                    else {
+                    } else {
                         System.out.println("wrong");
                     }
                 }
@@ -118,118 +102,108 @@ public class qaDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.qa_detail);
-        TextView TopBarTitle = (TextView)findViewById(R.id.topbar_title);
+        TextView TopBarTitle = findViewById(R.id.topbar_title);
         TopBarTitle.setText("回答详情");
-        TextView qtext = (TextView)findViewById(R.id.question);
-        qtext.setText(Common.questionList.get(Common.nowpos));
-        TextView qtime = (TextView)findViewById(R.id.qtime);
-        String qtimestr = "提问于 "+Common.questionTimeList.get(Common.nowpos);
-        qtime.setText(qtimestr);
-        TextView atime = (TextView)findViewById(R.id.atime);
+        TextView qText = findViewById(R.id.question);
+        qText.setText(Common.questionList.get(Common.nowpos));
+        TextView qTime = findViewById(R.id.qtime);
+        String qTimeStr = "提问于 "+Common.questionTimeList.get(Common.nowpos);
+        qTime.setText(qTimeStr);
+        TextView ansTime = findViewById(R.id.atime);
 
-        EditText editText = (EditText)findViewById(R.id.answer);
-        String question = qtext.getText().toString();
+        EditText editText = findViewById(R.id.answer);
+        String question = qText.getText().toString();
         Common.nowpos = Common.questionList.indexOf(question);
         String state = Common.stateList.get(Common.nowpos);
-        TextView answerbtn = (TextView) findViewById(R.id.answerbtn);
-        TextView editbtn = (TextView) findViewById(R.id.editbtn);
+        TextView answerBtn = findViewById(R.id.answerbtn);
+        TextView editBtn = findViewById(R.id.editbtn);
 
-        backBtn = findViewById(R.id.backButton);
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        ImageButton backBtn = findViewById(R.id.backButton);
+        backBtn.setOnClickListener(v -> finish());
 
         if(Common.hometabNum == 0 && state.equals("0")){        // 提问我但我未回答的（可写回答）
             editText.setEnabled(true);
             editText.setHint("请输入您的回答...");
 
-            answerbtn.setBackgroundResource(R.drawable.answerbtn);
-            answerbtn.setText("完成回答");
-            answerbtn.setTranslationZ(5);
-            answerbtn.setElevation(5);
-            answerbtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    editText.setEnabled(false);
+            answerBtn.setBackgroundResource(R.drawable.answerbtn);
+            answerBtn.setText("完成回答");
+            answerBtn.setTranslationZ(5);
+            answerBtn.setElevation(5);
+            answerBtn.setOnClickListener(v -> {
+                editText.setEnabled(false);
 
-                    // 获取回答当前时间
-                    TimeZone.setDefault(TimeZone.getTimeZone("GMT+8"));
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                    Date date = new Date(System.currentTimeMillis());
-                    String answertime = simpleDateFormat.format(date);
+                // 获取回答当前时间
+                TimeZone.setDefault(TimeZone.getTimeZone("GMT+8"));
+                @SuppressLint("SimpleDateFormat")
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                Date date = new Date(System.currentTimeMillis());
+                String answerTime = simpleDateFormat.format(date);
 
-                    Threads_Answer Answer = new Threads_Answer();
-                    Answer.id = Common.idList.get(Common.nowpos).toString();
-                    Answer.server = "/Answer";
-                    Answer.answer = editText.getText().toString();
-                    Answer.answertime = answertime;
-                    Answer.start();
-                }
+                Threads_Answer Answer = new Threads_Answer();
+                Answer.id = Common.idList.get(Common.nowpos).toString();
+                Answer.server = "/Answer";
+                Answer.answer = editText.getText().toString();
+                Answer.answerTime = answerTime;
+                Answer.start();
             });
         }
         if(Common.hometabNum == 1 && state.equals("1")){
             editText.setText(Common.answerList.get(Common.nowpos));     // 提问我但我并且我已经回答的（可编辑回答）
             editText.setEnabled(false);
-            String atimestr = "回答于 "+Common.answerTimeList.get(Common.nowpos);
-            atime.setText(atimestr);
+            String ansTimeStr = "回答于 "+Common.answerTimeList.get(Common.nowpos);
+            ansTime.setText(ansTimeStr);
 
-            editbtn.setBackgroundResource(R.drawable.answerbtn);
-            editbtn.setText("编辑回答");
-            editbtn.setTranslationZ(5);
-            editbtn.setElevation(5);
-            answerbtn.setEnabled(false);
-            editbtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                        editText.setEnabled(true);
+            editBtn.setBackgroundResource(R.drawable.answerbtn);
+            editBtn.setText("编辑回答");
+            editBtn.setTranslationZ(5);
+            editBtn.setElevation(5);
+            answerBtn.setEnabled(false);
+            editBtn.setOnClickListener(v -> {
+                    editText.setEnabled(true);
 
-                        editbtn.setEnabled(false);
-                        editbtn.setBackgroundColor(Color.parseColor("#ffffff"));
-                        editbtn.setText("");
-                        editbtn.setTranslationZ(0);
-                        editbtn.setElevation(0);
+                    editBtn.setEnabled(false);
+                    editBtn.setBackgroundColor(Color.parseColor("#ffffff"));
+                    editBtn.setText("");
+                    editBtn.setTranslationZ(0);
+                    editBtn.setElevation(0);
 
-                        answerbtn.setEnabled(true);
-                        answerbtn.setBackgroundResource(R.drawable.answerbtn);
-                        answerbtn.setText("完成编辑");
-                        answerbtn.setTranslationZ(5);
-                        answerbtn.setElevation(5);
-                }
+                    answerBtn.setEnabled(true);
+                    answerBtn.setBackgroundResource(R.drawable.answerbtn);
+                    answerBtn.setText("完成编辑");
+                    answerBtn.setTranslationZ(5);
+                    answerBtn.setElevation(5);
             });
 
-            answerbtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    editText.setEnabled(false);
+            answerBtn.setOnClickListener(v -> {
+                editText.setEnabled(false);
 
-                    // 获取回答当前时间
-                    TimeZone.setDefault(TimeZone.getTimeZone("GMT+8"));
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                    Date date = new Date(System.currentTimeMillis());
-                    String answertime = simpleDateFormat.format(date);
+                // 获取回答当前时间
+                TimeZone.setDefault(TimeZone.getTimeZone("GMT+8"));
+                @SuppressLint("SimpleDateFormat")
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                Date date = new Date(System.currentTimeMillis());
+                String answerTime = simpleDateFormat.format(date);
 
-                    Threads_Answer Answer = new Threads_Answer();
-                    Answer.id = Common.idList.get(Common.nowpos).toString();
-                    Answer.server = "/Answer";
-                    Answer.answer = editText.getText().toString();
-                    Answer.answertime = answertime;
-                    Answer.start();
-                    System.out.println("编辑完成");
-                }
+                Threads_Answer Answer = new Threads_Answer();
+                Answer.id = Common.idList.get(Common.nowpos).toString();
+                Answer.server = "/Answer";
+                Answer.answer = editText.getText().toString();
+                Answer.answerTime = answerTime;
+                Answer.start();
+                System.out.println("编辑完成");
             });
         }
         if(Common.hometabNum == 2 && state.equals("0")){        // 我提问但未回答的
             editText.setHint("正在等待回答...");
             editText.setEnabled(false);
         }
+
         if(Common.hometabNum == 3 && state.equals("1")){
             editText.setText(Common.answerList.get(Common.nowpos));     // 我提问且已经回答的（只读）
             editText.setEnabled(false);
-            String atimestr = "回答于 "+Common.answerTimeList.get(Common.nowpos);
-            atime.setText(atimestr);
+            String ansTimeStr = "回答于 "+Common.answerTimeList.get(Common.nowpos);
+            ansTime.setText(ansTimeStr);
         }
+
     }
 }

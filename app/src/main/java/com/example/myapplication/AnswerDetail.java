@@ -1,12 +1,13 @@
 package com.example.myapplication;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.entity.Questionbox;
@@ -31,15 +32,13 @@ public class AnswerDetail extends AppCompatActivity {
     private EditText aText;
     private TextView qTime;
     private TextView aTime;
-    private ImageButton backBtn;
 
     class Threads_detail extends Thread {
-        // 获取提问箱列表
-        private OkHttpClient client = null;
         @Override
         public void run() {
             System.out.println(id);
-            client = new OkHttpClient();
+            // 获取提问箱列表
+            OkHttpClient client = new OkHttpClient();
             Gson gson = new Gson();
             RequestBody body = new FormBody.Builder()
                     .add("id", id)
@@ -53,25 +52,26 @@ public class AnswerDetail extends AppCompatActivity {
             Call call = client.newCall(request);
             call.enqueue(new Callback() {
                 @Override
-                public void onFailure(Call call, IOException e) {
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
                     System.out.println("fail to get attention!");
                 }
 
                 @Override
-                public void onResponse(Call call, Response response) throws IOException {
-
-                    if(response.isSuccessful()) {//回调的方法执行在子线程。
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    if(response.isSuccessful()) {
+                        assert response.body() != null;
                         String AnswerJson = response.body().string();
                         runOnUiThread(new Runnable() {
+                            @SuppressLint("SetTextI18n")
                             @Override
                             public void run() {
                                 Questionbox aBoxItem = gson.fromJson(AnswerJson, new TypeToken<Questionbox>() {}.getType());
                                 qText.setText(aBoxItem.getQuestion());
                                 aText.setText(aBoxItem.getAnswer());
                                 aText.setEnabled(false);
-                                qTime.setText("提问于 "+aBoxItem.getQuestionTime());
-                                aTime.setText("回答于 "+aBoxItem.getAnswerTime());
-                                TextView TopBarTitle = (TextView) findViewById(R.id.topbar_title);
+                                qTime.setText("提问于 " + aBoxItem.getQuestionTime());
+                                aTime.setText("回答于 " + aBoxItem.getAnswerTime());
+                                TextView TopBarTitle = findViewById(R.id.topbar_title);
                                 TopBarTitle.setText("详  情");
                             }
                         });
@@ -100,12 +100,7 @@ public class AnswerDetail extends AppCompatActivity {
                 System.out.println("wrong");
             }
         }
-        backBtn = findViewById(R.id.backButton);
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        ImageButton backBtn = findViewById(R.id.backButton);
+        backBtn.setOnClickListener(v -> finish());
     }
 }

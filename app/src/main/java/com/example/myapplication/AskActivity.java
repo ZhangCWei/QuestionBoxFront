@@ -1,11 +1,11 @@
 package com.example.myapplication;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.entity.Questionbox;
@@ -36,18 +37,14 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class AskActivity extends AppCompatActivity {
-    private EditText askText;//提问处
-    private ListView answeredList;//已回答过的问题列表
-    private Button commitBtn;
-    private String question;
-    private ImageButton backBtn;
+    private EditText askText;       // 提问处
+    private ListView answeredList;  // 已回答过的问题列表
     private String targetName;
     private String target;
     private String phone;
     private AskListAdapter adapter;
     private ArrayList<Questionbox> answerList;
-    private ArrayList<Integer> answerIdList = new ArrayList<>();;
-
+    private final ArrayList<Integer> answerIdList = new ArrayList<>();;
 
     public void calculateHeight() {
         if (adapter != null) {
@@ -65,17 +62,25 @@ public class AskActivity extends AppCompatActivity {
     }
 
     class Threads_Ask extends Thread {
-        // 提交提问
-        private OkHttpClient client = null;
         @Override
         public void run() {
+            // 设置默认时区GMT+8
             TimeZone.setDefault(TimeZone.getTimeZone("GMT+8"));
+
+            // 格式化日期时间
+            @SuppressLint("SimpleDateFormat")
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+            // 获取当前系统时间, 格式化为字符串
             Date date = new Date(System.currentTimeMillis());
             String questionTime = simpleDateFormat.format(date);
             System.out.println(questionTime);
-            question = askText.getText().toString();
-            client = new OkHttpClient();
+
+            // 获取输入的提问字符串
+            String question = askText.getText().toString();
+
+            // 提交提问
+            OkHttpClient client = new OkHttpClient();
             RequestBody body = new FormBody.Builder()
                     .add("source", phone)
                     .add("target", target)
@@ -92,13 +97,13 @@ public class AskActivity extends AppCompatActivity {
             Call call = client.newCall(request);
             call.enqueue(new Callback() {
                 @Override
-                public void onFailure(Call call, IOException e) {
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
                     System.out.println("fail to get attention!");
                 }
 
                 @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    if(response.isSuccessful()){//回调的方法执行在子线程。
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    if(response.isSuccessful()){
                         Looper.prepare();
                         Toast.makeText(AskActivity.this, "问题提交成功！", Toast.LENGTH_SHORT).show();
                         askText.setText("");
@@ -112,11 +117,10 @@ public class AskActivity extends AppCompatActivity {
     }
 
     class Threads_Ans extends Thread {
-        // 获取提问箱列表
-        private OkHttpClient client = null;
         @Override
         public void run() {
-            client = new OkHttpClient();
+            // 获取提问箱列表
+            OkHttpClient client = new OkHttpClient();
             Gson gson = new Gson();
             RequestBody body = new FormBody.Builder()
                     .add("phone", target)
@@ -131,30 +135,33 @@ public class AskActivity extends AppCompatActivity {
             Call call = client.newCall(request);
             call.enqueue(new Callback() {
                 @Override
-                public void onFailure(Call call, IOException e) {
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
                     System.out.println("fail to get attention!");
                 }
 
                 @Override
-                public void onResponse(Call call, Response response) throws IOException {
-
-                    if(response.isSuccessful()){//回调的方法执行在子线程。
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    if(response.isSuccessful()){
+                        assert response.body() != null;
                         String AnswerJson = response.body().string();
-                        AskActivity.this.runOnUiThread(new Runnable() {
-                            public void run() {
-                                answerList = gson.fromJson(AnswerJson, new TypeToken<ArrayList<Questionbox>>() {}.getType());
-                                Common.askAnswerList.clear();
-                                answerIdList.clear();
-                                if (adapter != null) adapter.clear();
-                                for (Questionbox qb : answerList) {
-                                    Common.askAnswerList.add(qb.getQuestion());
-                                    answerIdList.add(qb.getId());
-                                }
-                                if (!Common.askAnswerList.isEmpty()) {
-                                    adapter = new AskListAdapter(AskActivity.this, R.layout.listview_item_answer, Common.askAnswerList,null);
-                                    answeredList.setAdapter(adapter);
-                                    calculateHeight();
-                                }
+                        AskActivity.this.runOnUiThread(() -> {
+                            // 使用 Gson 将 JSON 字符串转换为 ArrayList<Questionbox> 对象
+                            answerList = gson.fromJson(AnswerJson, new TypeToken<ArrayList<Questionbox>>() {}.getType());
+                            // 清空回答列表
+                            Common.askAnswerList.clear();
+                            answerIdList.clear();
+                            // 清除适配器数据
+                            if (adapter != null) adapter.clear();
+                            // 重新添加回答列表
+                            for (Questionbox qb : answerList) {
+                                Common.askAnswerList.add(qb.getQuestion());
+                                answerIdList.add(qb.getId());
+                            }
+                            // 若回答列表不为空, 设置适配器并计算高度
+                            if (!Common.askAnswerList.isEmpty()) {
+                                adapter = new AskListAdapter(AskActivity.this, R.layout.listview_item_answer, Common.askAnswerList,null);
+                                answeredList.setAdapter(adapter);
+                                calculateHeight();
                             }
                         });
                     }else {
@@ -165,6 +172,7 @@ public class AskActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -174,49 +182,45 @@ public class AskActivity extends AppCompatActivity {
 
         askText = findViewById(R.id.askPlace);
         answeredList = findViewById(R.id.answered);
-        commitBtn = findViewById(R.id.commit);
-        backBtn = findViewById(R.id.backButton);
+        Button commitBtn = findViewById(R.id.commit);
+        ImageButton backBtn = findViewById(R.id.backButton);
+        TextView TopBarTitle = findViewById(R.id.topbar_title);
 
-        target = getIntent().getStringExtra("target");//手机号
-        targetName = getIntent().getStringExtra("targetName");//昵称
-
-        TextView TopBarTitle = (TextView)findViewById(R.id.topbar_title);
+        target = getIntent().getStringExtra("target");
+        targetName = getIntent().getStringExtra("targetName");
         TopBarTitle.setText(targetName + " 的 回 答");
 
-
+        // 创建并启动获取回答的线程
         Threads_Ans ans = new Threads_Ans();
         ans.start();
 
-        commitBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(askText.length() != 0){
-                    Threads_Ask ask = new Threads_Ask();
-                    ask.start();
-                }else{
-                    Toast.makeText(AskActivity.this, "请输入你的提问", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
+        // 设置提交按钮的点击事件监听器
+        commitBtn.setOnClickListener(v -> {
+            // 如果提问文本框不为空, 启动提问线程
+            if(askText.length() != 0){
+                Threads_Ask ask = new Threads_Ask();
+                ask.start();
+            } else {
+                Toast.makeText(AskActivity.this, "请输入你的提问", Toast.LENGTH_SHORT).show();
             }
         });
 
-        answeredList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView<?> parent,View view,int i,long l){
-                int selectedId = answerIdList.get(i);
-                String idstr = String.valueOf(selectedId);
-                Intent intent = new Intent(AskActivity.this, AnswerDetail.class);
-                adapter.notifyDataSetChanged();
-                //传递电话号码
-                intent.putExtra("id", idstr);
-                System.out.println(selectedId);
-                startActivity(intent);
-            }
+        // 设置返回按钮的点击事件监听器
+        backBtn.setOnClickListener(v -> finish());
+
+        // 设置已回答问题列表项的点击事件监听器
+        answeredList.setOnItemClickListener((parent, view, i, l) -> {
+            // 获取选中问题的 ID
+            int selectedId = answerIdList.get(i);
+            String idStr = String.valueOf(selectedId);
+            // 创建跳转到回答详情的 Intent
+            Intent intent = new Intent(AskActivity.this, AnswerDetail.class);
+            adapter.notifyDataSetChanged();
+            // 传递选中问题的 ID
+            intent.putExtra("id", idStr);
+            System.out.println(selectedId);
+            // 启动回答详情活动
+            startActivity(intent);
         });
     }
 }

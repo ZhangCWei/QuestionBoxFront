@@ -2,22 +2,27 @@ package com.example.myapplication;
 
 public class listviewItem {
     private String question;
-    private String questiontime;
+    private String questionTime;
+
     public listviewItem(String question, String time) {
         this.question = question;
-        this.questiontime= time;
+        this.questionTime= time;
     }
+
     public void setQuestion(String question) {
         this.question = question;
     }
+
     public void setQuestionTime(String time) {
-        this.questiontime = time;
+        this.questionTime = time;
     }
+
     public String getQuestion() {
         return question;
     }
 
     public String getQuestionTime() {
-        return questiontime;
+        return questionTime;
     }
+
 }

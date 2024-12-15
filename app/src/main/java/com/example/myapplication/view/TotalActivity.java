@@ -1,4 +1,3 @@
-
 package com.example.myapplication.view;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -56,7 +55,6 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class TotalActivity extends FragmentActivity implements View.OnClickListener, FragmentInterface {
-
     private User host;
     private ViewPager2 viewPager;           // 声明 ViewPager
     private List<Fragment> fragmentList;    // 装载 Fragment 的集合
