@@ -9,7 +9,6 @@ import android.graphics.Shader;
 import android.widget.ListView;
 
 import com.example.myapplication.entity.User;
-import com.example.myapplication.listviewItem;
 import com.example.myapplication.view.fragment.mBottomSheetDialogFragment;
 import com.example.myapplication.view.adapter.mListAdapter;
 
@@ -19,10 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Common {
-
+    public static String URL = "http://192.168.3.200:8080";
     public static User user;
     public static  Bitmap bitmap;
-    public static String URL = "http://192.168.3.200:8080";
     public static List<listviewItem> lvItemList = new ArrayList<>();
     @SuppressLint("StaticFieldLeak")
     public static ListView listView;

@@ -17,7 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.view.adapter.AskListAdapter;
 import com.example.myapplication.R;
-import com.example.myapplication.entity.Questionbox;
+import com.example.myapplication.entity.QuestionBox;
 import com.example.myapplication.util.Common;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -44,7 +44,7 @@ public class AskActivity extends AppCompatActivity {
     private String target;
     private String phone;
     private AskListAdapter adapter;
-    private ArrayList<Questionbox> answerList;
+    private ArrayList<QuestionBox> answerList;
     private final ArrayList<Integer> answerIdList = new ArrayList<>();;
 
     public void calculateHeight() {
@@ -147,14 +147,14 @@ public class AskActivity extends AppCompatActivity {
                         String AnswerJson = response.body().string();
                         AskActivity.this.runOnUiThread(() -> {
                             // 使用 Gson 将 JSON 字符串转换为 ArrayList<Questionbox> 对象
-                            answerList = gson.fromJson(AnswerJson, new TypeToken<ArrayList<Questionbox>>() {}.getType());
+                            answerList = gson.fromJson(AnswerJson, new TypeToken<ArrayList<QuestionBox>>() {}.getType());
                             // 清空回答列表
                             Common.askAnswerList.clear();
                             answerIdList.clear();
                             // 清除适配器数据
                             if (adapter != null) adapter.clear();
                             // 重新添加回答列表
-                            for (Questionbox qb : answerList) {
+                            for (QuestionBox qb : answerList) {
                                 Common.askAnswerList.add(qb.getQuestion());
                                 answerIdList.add(qb.getId());
                             }

@@ -1,6 +1,6 @@
 package com.example.myapplication.entity;
 
-public class Questionbox {
+public class QuestionBox {
     private int Id;
     private String sourcePhone;		// 提问的人
     private String targetPhone;		// 被问的人

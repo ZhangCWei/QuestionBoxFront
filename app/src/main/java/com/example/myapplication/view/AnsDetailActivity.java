@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
-import com.example.myapplication.entity.Questionbox;
+import com.example.myapplication.entity.QuestionBox;
 import com.example.myapplication.util.Common;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -66,7 +66,7 @@ public class AnsDetailActivity extends AppCompatActivity {
                             @SuppressLint("SetTextI18n")
                             @Override
                             public void run() {
-                                Questionbox aBoxItem = gson.fromJson(AnswerJson, new TypeToken<Questionbox>() {}.getType());
+                                QuestionBox aBoxItem = gson.fromJson(AnswerJson, new TypeToken<QuestionBox>() {}.getType());
                                 qText.setText(aBoxItem.getQuestion());
                                 aText.setText(aBoxItem.getAnswer());
                                 aText.setEnabled(false);

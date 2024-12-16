@@ -13,8 +13,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.myapplication.R;
-import com.example.myapplication.entity.Questionbox;
-import com.example.myapplication.listviewItem;
+import com.example.myapplication.entity.QuestionBox;
+import com.example.myapplication.util.listviewItem;
 import com.example.myapplication.util.Common;
 import com.example.myapplication.view.adapter.mListAdapter;
 import com.google.gson.Gson;
@@ -44,7 +44,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private TextView meQUnansweredTabText;
     private TextView meQAnsweredTabText;
     private final Gson gson = new Gson();
-    List<Questionbox> QBox;
+    List<QuestionBox> QBox;
 
     class Threads_GetBox extends Thread {
         String phone = null;
@@ -76,7 +76,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     if(response.isSuccessful()){
                         assert response.body() != null;
                         String QBoxJson = response.body().string();
-                        QBox = gson.fromJson(QBoxJson, new TypeToken<ArrayList<Questionbox>>(){}.getType());
+                        QBox = gson.fromJson(QBoxJson, new TypeToken<ArrayList<QuestionBox>>(){}.getType());
 
                         // 清空 Common 的各个列表
                         Common.idList.clear();
@@ -89,7 +89,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         Common.stateList.clear();
 
                         // 遍历 QBox, 将各属性添加到对应的 Common 列表
-                        for (Questionbox qb : QBox) {
+                        for (QuestionBox qb : QBox) {
                             Common.idList.add(qb.getId());
                             Common.questionList.add(qb.getQuestion());
                             Common.answerList.add(qb.getAnswer());

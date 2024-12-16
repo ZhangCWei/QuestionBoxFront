@@ -13,8 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.myapplication.R;
-import com.example.myapplication.listviewItem;
 import com.example.myapplication.util.Common;
+import com.example.myapplication.util.listviewItem;
 import com.example.myapplication.view.QaDetailActivity;
 
 import java.util.List;
