@@ -1,7 +1,12 @@
 package com.example.myapplication.view;
 
+import android.annotation.SuppressLint;
+import android.os.Build;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
@@ -10,7 +15,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
@@ -34,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        init();
+        initView();
     }
 
     protected void onResume() {
@@ -44,21 +48,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Username.setText("");
     }
 
-    private void init() {
+    @SuppressLint("ObsoleteSdkInt")
+    private void initView() {
         // 设置背景图片
         getWindow().setBackgroundDrawableResource(R.drawable.loginbg);
+
+        // 设置状态栏透明
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+            getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
+        }
 
         // 获取屏幕高度
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int screenHeight = displayMetrics.heightPixels;
 
-        // 设置 TextView 的高度
-        int marginTop = 3 * screenHeight / 8;
-        TextView textView = findViewById(R.id.tv_1);
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) textView.getLayoutParams();
-        params.topMargin = marginTop;
-        textView.setLayoutParams(params);
+        // 设置 CardView 的高度
+        CardView cardView = findViewById(R.id.card_view);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) cardView.getLayoutParams();
+        params.height = screenHeight / 2;
+        params.topMargin = screenHeight / 4;
+        cardView.setLayoutParams(params);
 
         //登录按钮
         Button btnLogin = findViewById(R.id.bt_login);

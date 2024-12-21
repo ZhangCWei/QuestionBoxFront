@@ -3,9 +3,11 @@ package com.example.myapplication.view;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AlertDialog;
+import androidx.cardview.widget.CardView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.text.TextUtils;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +15,7 @@ import android.os.Looper;
 import android.os.Message;
 
 import android.util.DisplayMetrics;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -140,14 +143,29 @@ public class RegisterActivity extends AppCompatActivity {
         }
     };
 
+    @SuppressLint("ObsoleteSdkInt")
     private void initView() {
         // 设置背景图像资源
         getWindow().setBackgroundDrawableResource(R.drawable.registerbg);
+
+        // 设置状态栏透明
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+            getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
+        }
 
         // 获取屏幕高度
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int screenHeight = displayMetrics.heightPixels;
+
+        // 设置 CardView 的高度
+        CardView cardView = findViewById(R.id.r_card_view);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) cardView.getLayoutParams();
+        params.height = screenHeight / 2;
+        params.topMargin = screenHeight / 4;
+        cardView.setLayoutParams(params);
 
         // 获取 View
         inputName = findViewById(R.id.name);
@@ -156,12 +174,6 @@ public class RegisterActivity extends AppCompatActivity {
         inputPassword = findViewById(R.id.password);
         get_code = findViewById(R.id.get_code);
         commit = findViewById(R.id.commit);
-
-        // 设置 EditText 的 layout_marginTop 属性
-        int marginTop = 3 * screenHeight / 8;
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) inputName.getLayoutParams();
-        params.topMargin = marginTop;
-        inputName.setLayoutParams(params);
 
         // 为 get_code 按钮设置事件监听器, 当用户点击按钮时, 执行代码
         get_code.setOnClickListener(view -> {
