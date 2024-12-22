@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Common {
-    public static String URL = "http://192.168.3.200:8080";
+    public static String URL = "http://192.168.3.200:8080";     // 这里不能填 loaclhost 或 127.0.0.1
     public static User user;
     public static  Bitmap bitmap;
     public static List<listviewItem> lvItemList = new ArrayList<>();

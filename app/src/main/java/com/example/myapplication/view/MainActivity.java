@@ -22,6 +22,7 @@ import com.example.myapplication.entity.User;
 import com.example.myapplication.util.Common;
 import com.google.gson.Gson;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -95,12 +96,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             // 创建请求体
             OkHttpClient client = new OkHttpClient();
-            RequestBody body = new FormBody.Builder().add("phone", username).build();
+            HttpUrl url = Objects.requireNonNull(HttpUrl.parse(Common.URL + "/login")).newBuilder()
+                    .addQueryParameter("phone", username)
+                    .build();
 
             // 创建请求
             Request request = new Request.Builder()
-                    .url(Common.URL + "/login")
-                    .post(body)
+                    .url(url)
+                    .get()
                     .cacheControl(CacheControl.FORCE_NETWORK)
                     .build();
 
@@ -124,7 +127,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         String userJson= response.body().string();
                         // 反序列化用户信息
                         Common.user = gson.fromJson(userJson, User.class);
-                        System.out.println(Common.user);
                         Intent intent;
                         if(Common.user == null){
                             // 用户不存在
@@ -134,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             return;
                         }
                         // 验证密码
-                        if (password.equals(Common.user.getRealPassword())) {
+                        if (password.equals(Common.user.getPassword())) {
                             // 密码正确
                             Looper.prepare();
                             Toast.makeText(MainActivity.this,"登录成功！",Toast.LENGTH_SHORT).show();

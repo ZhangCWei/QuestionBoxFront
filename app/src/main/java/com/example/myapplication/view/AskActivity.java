@@ -86,11 +86,11 @@ public class AskActivity extends AppCompatActivity {
                     .add("source", phone)
                     .add("target", target)
                     .add("question", question)
-                    .add("questiontime",questionTime)
-                    .add("targetName",targetName)
+                    .add("questiontime", questionTime)
+                    .add("targetName", targetName)
                     .build();
             Request request = new Request.Builder()
-                    .url(Common.URL+"/AskQuestion")
+                    .url(Common.URL + "/AskQuestion")
                     .post(body)
                     .cacheControl(CacheControl.FORCE_NETWORK)
                     .build();
@@ -128,7 +128,7 @@ public class AskActivity extends AppCompatActivity {
                     .add("state", "1")
                     .build();
             Request request = new Request.Builder()
-                    .url(Common.URL+"/gettarget")
+                    .url(Common.URL + "/gettarget")
                     .post(body)
                     .cacheControl(CacheControl.FORCE_NETWORK)
                     .build();

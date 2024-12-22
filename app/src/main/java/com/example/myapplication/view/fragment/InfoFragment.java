@@ -62,15 +62,15 @@ public class InfoFragment extends Fragment {
 
         // 显示用户名称
         TextView txt = tabView.findViewById(R.id.name);
-        txt.setText(host.getName());
+        txt.setText(host.getUsername());
 
         // 设置EditText文本内容
         EditText Name = tabView.findViewById(R.id.showname);
         EditText Password = tabView.findViewById(R.id.showpassword);
         EditText Phone = tabView.findViewById(R.id.showphone);
 
-        Name.setText(host.getName());
-        Password.setText(host.getRealPassword());
+        Name.setText(host.getUsername());
+        Password.setText(host.getPassword());
         Phone.setText(host.getPhone());
 
         // 禁用EditText编辑功能

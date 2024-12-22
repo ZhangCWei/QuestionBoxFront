@@ -283,7 +283,7 @@ public class FriendFragment extends Fragment {
         final EditText editText = promptView.findViewById(R.id.inputEditText);
 
         alertDialogBuilder.setCancelable(false).setPositiveButton("确定", (dialog, id) -> {
-                    String myName = Common.user.getName();
+                    String myName = Common.user.getUsername();
                     // 处理输入内容
                     String inputText = editText.getText().toString().trim();
                     OkHttpClient client = new OkHttpClient();
