@@ -293,7 +293,7 @@ public class FriendFragment extends Fragment {
                             .add("target",inputText)
                             .build();
                     Request request = new Request.Builder()
-                            .url(Common.URL+"/square/add")
+                            .url(Common.URL + "/square/add")
                             .post(body)
                             .cacheControl(CacheControl.FORCE_NETWORK)
                             .build();
