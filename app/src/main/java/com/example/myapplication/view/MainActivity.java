@@ -129,10 +129,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Common.user = gson.fromJson(userJson, User.class);
                         Intent intent;
                         if(Common.user == null){
-                            // 用户不存在
-                            Looper.prepare();      // 创建消息循环
-                            Toast.makeText(MainActivity.this,"该用户不存在！",Toast.LENGTH_SHORT).show();
-                            Looper.loop();         // 启动消息循环, 处理消息队列中的消息
+                            System.out.println("fail");
                             return;
                         }
                         // 验证密码
@@ -152,7 +149,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             Looper.loop();
                         }
                     } else {
-                        System.out.println("fail");
+                        // 用户不存在
+                        Looper.prepare();      // 创建消息循环
+                        Toast.makeText(MainActivity.this,"该用户不存在！",Toast.LENGTH_SHORT).show();
+                        Looper.loop();         // 启动消息循环, 处理消息队列中的消息
                     }
                 }
             });

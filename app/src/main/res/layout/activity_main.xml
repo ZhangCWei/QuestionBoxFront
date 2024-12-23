@@ -37,7 +37,7 @@
 
             <EditText
                 android:id="@+id/et_1"
-                android:layout_width="250dp"
+                android:layout_width="220dp"
                 android:layout_height="60dp"
                 android:autofillHints="autofillHintText"
                 android:inputType="text"
@@ -52,7 +52,7 @@
 
             <EditText
                 android:id="@+id/et_2"
-                android:layout_width="250dp"
+                android:layout_width="220dp"
                 android:layout_height="60dp"
                 android:textSize="18sp"
                 android:textColor="@color/black"
@@ -75,7 +75,7 @@
 
                 <Button
                     android:id="@+id/bt_login"
-                    android:layout_width="150dp"
+                    android:layout_width="110dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/login"
@@ -89,7 +89,7 @@
 
                 <Button
                     android:id="@+id/bt_reg"
-                    android:layout_width="150dp"
+                    android:layout_width="110dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/register"
