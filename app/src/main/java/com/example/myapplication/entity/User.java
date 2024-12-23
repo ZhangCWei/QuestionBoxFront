@@ -11,16 +11,16 @@ public class User{
         return Id;
     }
 
+    public void setId(int id) {
+        Id = id;
+    }
+
     public int getIsChanged() {
         return isChanged;
     }
 
     public void setIsChanged(int isChanged) {
         this.isChanged = isChanged;
-    }
-
-    public void setId(int id) {
-        Id = id;
     }
 
     public String getUsername() {

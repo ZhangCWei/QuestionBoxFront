@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -38,6 +39,7 @@ import okhttp3.CacheControl;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -168,7 +170,7 @@ public class RegisterActivity extends AppCompatActivity {
         cardView.setLayoutParams(params);
 
         // 获取 View
-        inputName = findViewById(R.id.name);
+        inputName = findViewById(R.id.username);
         inputCode = findViewById(R.id.code);
         inputPhone = findViewById(R.id.phone);
         inputPassword = findViewById(R.id.password);
@@ -190,12 +192,12 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
                 // 判断手机号是否存在于数据库第二行, 若存在, 弹窗提示无法注册
-                RequestBody body = new FormBody.Builder()
-                        .add("phonenumber", phone)
+                HttpUrl url = Objects.requireNonNull(HttpUrl.parse(Common.URL + "/register/check")).newBuilder()
+                        .addQueryParameter("phonenumber", phone)
                         .build();
                 Request request = new Request.Builder()
-                        .url(Common.URL + "/register/check")
-                        .post(body)
+                        .url(url)
+                        .get()
                         .cacheControl(CacheControl.FORCE_NETWORK)
                         .build();
 

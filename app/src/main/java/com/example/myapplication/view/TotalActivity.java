@@ -40,13 +40,14 @@ import java.io.ByteArrayOutputStream;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import okhttp3.CacheControl;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
+import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -292,12 +293,15 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
 
     public void getHeader() {
         OkHttpClient client = new OkHttpClient();
-        RequestBody body = new FormBody.Builder()
-                .add("phone", Common.user.getPhone())
+
+        HttpUrl url = Objects.requireNonNull(HttpUrl.parse(Common.URL + "/getHeader")).newBuilder()
+                .addQueryParameter("phone", Common.user.getPhone())
                 .build();
+
+        // 创建请求
         Request request = new Request.Builder()
-                .url(Common.URL + "/getheader")
-                .post(body)
+                .url(url)
+                .get()
                 .cacheControl(CacheControl.FORCE_NETWORK)
                 .build();
 

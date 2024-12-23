@@ -23,14 +23,14 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import okhttp3.CacheControl;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
@@ -54,13 +54,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         public void run() {
             // 获取提问箱列表
             OkHttpClient client = new OkHttpClient();
-            RequestBody body = new FormBody.Builder()
-                    .add("phone", phone)
-                    .add("state", state)
+            HttpUrl url = Objects.requireNonNull(HttpUrl.parse(Common.URL + server)).newBuilder()
+                    .addQueryParameter("phone", phone)
+                    .addQueryParameter("state", state)
                     .build();
             Request request = new Request.Builder()
-                    .url(Common.URL + server)
-                    .post(body)
+                    .url(url)
+                    .get()
                     .cacheControl(CacheControl.FORCE_NETWORK)
                     .build();
 
@@ -211,7 +211,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 Threads_GetBox GetBox_1 = new Threads_GetBox();
                 GetBox_1.phone = Common.user.getPhone();
                 GetBox_1.state = "0";
-                GetBox_1.server = "/gettarget";
+                GetBox_1.server = "/getTarget";
                 GetBox_1.start();
                 break;
             case 1:
@@ -222,7 +222,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 Threads_GetBox GetBox_2 = new Threads_GetBox();
                 GetBox_2.phone = Common.user.getPhone();
                 GetBox_2.state = "1";
-                GetBox_2.server = "/gettarget";
+                GetBox_2.server = "/getTarget";
                 GetBox_2.start();
                 break;
             case 2:
@@ -233,7 +233,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 Threads_GetBox GetBox_3 = new Threads_GetBox();
                 GetBox_3.phone = Common.user.getPhone();
                 GetBox_3.state = "0";
-                GetBox_3.server = "/getsource";
+                GetBox_3.server = "/getSource";
                 GetBox_3.start();
                 break;
             case 3:
@@ -244,7 +244,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 Threads_GetBox GetBox_4 = new Threads_GetBox();
                 GetBox_4.phone = Common.user.getPhone();
                 GetBox_4.state = "1";
-                GetBox_4.server = "/getsource";
+                GetBox_4.server = "/getSource";
                 GetBox_4.start();
                 break;
         }

@@ -26,12 +26,14 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 import java.util.TimeZone;
 
 import okhttp3.CacheControl;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -90,7 +92,7 @@ public class AskActivity extends AppCompatActivity {
                     .add("targetName", targetName)
                     .build();
             Request request = new Request.Builder()
-                    .url(Common.URL + "/AskQuestion")
+                    .url(Common.URL + "/askQuestion")
                     .post(body)
                     .cacheControl(CacheControl.FORCE_NETWORK)
                     .build();
@@ -123,13 +125,13 @@ public class AskActivity extends AppCompatActivity {
             // 获取提问箱列表
             OkHttpClient client = new OkHttpClient();
             Gson gson = new Gson();
-            RequestBody body = new FormBody.Builder()
-                    .add("phone", target)
-                    .add("state", "1")
+            HttpUrl url = Objects.requireNonNull(HttpUrl.parse(Common.URL + "/getTarget")).newBuilder()
+                    .addQueryParameter("phone", target)
+                    .addQueryParameter("state", "1")
                     .build();
             Request request = new Request.Builder()
-                    .url(Common.URL + "/gettarget")
-                    .post(body)
+                    .url(url)
+                    .get()
                     .cacheControl(CacheControl.FORCE_NETWORK)
                     .build();
 

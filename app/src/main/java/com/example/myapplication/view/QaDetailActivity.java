@@ -142,7 +142,7 @@ public class QaDetailActivity extends AppCompatActivity {
 
                 Threads_Answer Answer = new Threads_Answer();
                 Answer.id = Common.idList.get(Common.nowpos).toString();
-                Answer.server = "/Answer";
+                Answer.server = "/answer";
                 Answer.answer = editText.getText().toString();
                 Answer.answerTime = answerTime;
                 Answer.start();
@@ -187,7 +187,7 @@ public class QaDetailActivity extends AppCompatActivity {
 
                 Threads_Answer Answer = new Threads_Answer();
                 Answer.id = Common.idList.get(Common.nowpos).toString();
-                Answer.server = "/Answer";
+                Answer.server = "/answer";
                 Answer.answer = editText.getText().toString();
                 Answer.answerTime = answerTime;
                 Answer.start();

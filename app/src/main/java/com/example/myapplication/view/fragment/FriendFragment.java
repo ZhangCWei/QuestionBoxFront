@@ -2,6 +2,7 @@ package com.example.myapplication.view.fragment;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.view.LayoutInflater;
@@ -32,6 +33,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -39,6 +42,7 @@ import okhttp3.CacheControl;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -51,15 +55,22 @@ public class FriendFragment extends Fragment {
     private String phone;
     private SwipeRefreshLayout swipeRefreshLayout;
     private final Gson gson = new Gson();
-    public ArrayList<ListofTarget> targetList = new ArrayList<>();  // 存储我关注的人
-    public ArrayList<ListofTarget> sourceList = new ArrayList<>();  // 存储关注我的人
+    public ArrayList<ListOfTarget> targetList = new ArrayList<>();  // 存储我关注的人
+    public ArrayList<ListOfTarget> sourceList = new ArrayList<>();  // 存储关注我的人
     ArrayAdapter<String> adapter;
     ArrayAdapter<String> adapterFans;
 
-    public static class ListofTarget{
+    public static class ListOfTarget {
         public String TargetName;
         public String Target;
-        public byte[] imageBytes;
+        public String imageBytes;
+
+        public byte[] getImageBytes() {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                return Base64.getDecoder().decode(imageBytes);
+            }
+            return new byte[0];
+        }
     }
 
     public void calculateHeight(){
@@ -96,12 +107,15 @@ public class FriendFragment extends Fragment {
         public void run() {
             // 获取提问箱列表
             OkHttpClient client = new OkHttpClient();
-            RequestBody body = new FormBody.Builder()
-                    .add("myattention", phone)
+
+            HttpUrl url = Objects.requireNonNull(HttpUrl.parse(Common.URL + "/square/myAttention")).newBuilder()
+                    .addQueryParameter("myattention", phone)
                     .build();
+
+            // 创建请求
             Request request = new Request.Builder()
-                    .url(Common.URL+"/square/myattention")
-                    .post(body)
+                    .url(url)
+                    .get()
                     .cacheControl(CacheControl.FORCE_NETWORK)
                     .build();
 
@@ -117,20 +131,22 @@ public class FriendFragment extends Fragment {
                     if(response.isSuccessful()){
                         assert response.body() != null;
                         String AttenJson = response.body().string();
-                        targetList = gson.fromJson(AttenJson, new TypeToken<ArrayList<ListofTarget>>(){}.getType());
+                        targetList = gson.fromJson(AttenJson, new TypeToken<ArrayList<ListOfTarget>>(){}.getType());
                         requireActivity().runOnUiThread(() -> {
                             // 分别存储目标名称和目标图片
                             ArrayList<String> Atten = new ArrayList<>();
                             ArrayList<byte[]> AttenImage = new ArrayList<>();
 
                             // 遍历 targetList, 填充列表
-                            for(ListofTarget l :targetList){
-                                Atten.add(l.TargetName);
-                                AttenImage.add(l.imageBytes);
+                            if(targetList != null) {
+                                for (ListOfTarget l : targetList) {
+                                    Atten.add(l.TargetName);
+                                    AttenImage.add(l.getImageBytes());
+                                }
                             }
 
                             // 创建适配器并设置给 listView
-                            adapter = new AskListAdapter(tabView.getContext(), R.layout.listview_item_ask,Atten,AttenImage);
+                            adapter = new AskListAdapter(tabView.getContext(), R.layout.listview_item_ask, Atten, AttenImage);
                             listView.setAdapter(adapter);
                             System.out.println(Atten);
 
@@ -152,12 +168,12 @@ public class FriendFragment extends Fragment {
         public void run() {
             // 获取提问箱列表
             OkHttpClient client = new OkHttpClient();
-            RequestBody body = new FormBody.Builder()
-                    .add("myfans", phone)
+            HttpUrl url = Objects.requireNonNull(HttpUrl.parse(Common.URL + "/square/myFans")).newBuilder()
+                    .addQueryParameter("myfans", phone)
                     .build();
             Request request = new Request.Builder()
-                    .url(Common.URL+"/square/myfans")
-                    .post(body)
+                    .url(url)
+                    .get()
                     .cacheControl(CacheControl.FORCE_NETWORK)
                     .build();
 
@@ -173,13 +189,15 @@ public class FriendFragment extends Fragment {
                     if(response.isSuccessful()){
                         assert response.body() != null;
                         String FansJson = response.body().string();
-                        sourceList = gson.fromJson(FansJson, new TypeToken<ArrayList<ListofTarget>>(){}.getType());
+                        sourceList = gson.fromJson(FansJson, new TypeToken<ArrayList<ListOfTarget>>(){}.getType());
                         requireActivity().runOnUiThread(() -> {
                             ArrayList<String> Fans = new ArrayList<>();
                             ArrayList<byte[]> FansImage = new ArrayList<>();
-                            for(ListofTarget l :sourceList){
-                                Fans.add(l.TargetName);
-                                FansImage.add(l.imageBytes);
+                            if (sourceList != null) {
+                                for (ListOfTarget l : sourceList) {
+                                    Fans.add(l.TargetName);
+                                    FansImage.add(l.getImageBytes());
+                                }
                             }
                             adapterFans = new AskListAdapter(tabView.getContext(), R.layout.listview_item_ask,Fans,FansImage);
                             listView_new.setAdapter(adapterFans);
@@ -246,7 +264,7 @@ public class FriendFragment extends Fragment {
                             if (state == 0) {
                                 targetList.remove(position);
                                 ArrayList<String> x = new ArrayList<>();
-                                for (ListofTarget l : targetList) {
+                                for (ListOfTarget l : targetList) {
                                     x.add(l.TargetName);
                                 }
                                 adapter.clear();
@@ -256,7 +274,7 @@ public class FriendFragment extends Fragment {
                             }else if(state == 1){
                                 sourceList.remove(position);
                                 ArrayList<String> x = new ArrayList<>();
-                                for (ListofTarget l : sourceList) {
+                                for (ListOfTarget l : sourceList) {
                                     x.add(l.TargetName);
                                 }
                                 adapterFans.clear();

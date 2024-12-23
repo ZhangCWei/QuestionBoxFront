@@ -102,7 +102,7 @@ public class mBottomSheetDialogFragment extends BottomSheetDialogFragment implem
         Threads_DeleteItem DeleteItem = new Threads_DeleteItem();
         DeleteItem.id = Common.idList.get(Common.nowpos).toString();
         System.out.println("id=" + DeleteItem.id);
-        DeleteItem.server = "/DeleteItem";
+        DeleteItem.server = "/deleteItem";
         DeleteItem.start();
     }
 }
