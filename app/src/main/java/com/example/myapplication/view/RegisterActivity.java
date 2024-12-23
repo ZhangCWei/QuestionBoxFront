@@ -148,7 +148,7 @@ public class RegisterActivity extends AppCompatActivity {
     @SuppressLint("ObsoleteSdkInt")
     private void initView() {
         // 设置背景图像资源
-        getWindow().setBackgroundDrawableResource(R.drawable.registerbg);
+        getWindow().setBackgroundDrawableResource(R.drawable.background);
 
         // 设置状态栏透明
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

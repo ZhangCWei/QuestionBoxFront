@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @SuppressLint("ObsoleteSdkInt")
     private void initView() {
         // 设置背景图片
-        getWindow().setBackgroundDrawableResource(R.drawable.loginbg);
+        getWindow().setBackgroundDrawableResource(R.drawable.background);
 
         // 设置状态栏透明
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
