@@ -30,7 +30,6 @@ import com.example.myapplication.view.adapter.AskListAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -300,50 +299,54 @@ public class FriendFragment extends Fragment {
 
         final EditText editText = promptView.findViewById(R.id.inputEditText);
 
-        alertDialogBuilder.setCancelable(false).setPositiveButton("确定", (dialog, id) -> {
-                    String myName = Common.user.getUsername();
-                    // 处理输入内容
-                    String inputText = editText.getText().toString().trim();
-                    OkHttpClient client = new OkHttpClient();
-                    RequestBody body = new FormBody.Builder()
-                            .add("source",phone)
-                            .add("sourceName",myName)
-                            .add("target",inputText)
-                            .build();
-                    Request request = new Request.Builder()
-                            .url(Common.URL + "/square/add")
-                            .post(body)
-                            .cacheControl(CacheControl.FORCE_NETWORK)
-                            .build();
-                    client.newCall(request).enqueue(new Callback() {
-                        @Override
-                        public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                            Logger logger = Logger.getLogger(getClass().getName());
-                            logger.log(Level.SEVERE, "Request failed", e);
+        alertDialogBuilder.setCancelable(false);
+        alertDialogBuilder.setPositiveButton("确定", (dialog, id) -> {
+            String myName = Common.user.getUsername();
+            // 处理输入内容
+            String inputText = editText.getText().toString().trim();
+            OkHttpClient client = new OkHttpClient();
+            RequestBody body = new FormBody.Builder()
+                    .add("source", phone)
+                    .add("sourceName", myName)
+                    .add("target", inputText)
+                    .build();
+            Request request = new Request.Builder()
+                    .url(Common.URL + "/square/add")
+                    .post(body)
+                    .cacheControl(CacheControl.FORCE_NETWORK)
+                    .build();
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                    Logger logger = Logger.getLogger(getClass().getName());
+                    logger.log(Level.SEVERE, "Request failed", e);
+                }
+
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    if (response.isSuccessful()) {
+                        assert response.body() != null;
+                        String res = response.body().string();
+                        System.out.println(res);
+                        if (res.equals("repeated")) {
+                            Looper.prepare();
+                            Toast.makeText(tabView.getContext(), "请勿重复添加~", Toast.LENGTH_SHORT).show();
+                            Looper.loop();
+                        } else if (res.equals("successful")) {
+                            Looper.prepare();
+                            Toast.makeText(tabView.getContext(), "添加成功-ID!", Toast.LENGTH_SHORT).show();
+                            Looper.loop();
                         }
-                        @Override
-                        public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                            if (response.isSuccessful()) {
-                                assert response.body() != null;
-                                String res = response.body().string();
-                                System.out.println(res);
-                                if(res.equals("repeated")){
-                                    Looper.prepare();
-                                    Toast.makeText(tabView.getContext(), "请勿重复添加~", Toast.LENGTH_SHORT).show();
-                                    Looper.loop();
-                                }else if(res.equals("successful")) {
-                                    Looper.prepare();
-                                    Toast.makeText(tabView.getContext(), "添加成功-ID!", Toast.LENGTH_SHORT).show();
-                                    Looper.loop();
-                                }
-                            } else {
-                                Looper.prepare();
-                                Toast.makeText(tabView.getContext(), "该用户不存在，请检查好友ID", Toast.LENGTH_SHORT).show();
-                                System.out.println("response failed");
-                                Looper.loop();
-                            }
-                        }});
-                }).setNegativeButton("取消", (dialog, id) -> dialog.cancel());
+                    } else {
+                        Looper.prepare();
+                        Toast.makeText(tabView.getContext(), "该用户不存在，请检查好友ID", Toast.LENGTH_SHORT).show();
+                        System.out.println("response failed");
+                        Looper.loop();
+                    }
+                }
+            });
+        });
+        alertDialogBuilder.setNegativeButton("取消", (dialog, id) -> dialog.cancel());
 
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
